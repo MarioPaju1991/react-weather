@@ -3,11 +3,11 @@ import axios from 'axios';
 
 const StateContext = createContext();
 
-export const StateProvider = ({ children }) => {
+export const StateContextProvider = ({ children }) => {
  const [weather, setWeather] = useState({})
  const [values, setValues] = useState([])
  const [place, setPlace] = useState('Tokyo')
- const [location, setLocation] = useState('')
+ const [thisLoaction, setLocation] = useState('')
 
 
 
@@ -30,14 +30,24 @@ export const StateProvider = ({ children }) => {
       },
 
       headers: {
-        'X-RapidAPI-Key': import.meta.env.VITE_WEATHER_API_KEY,
+        'X-RapidAPI-Key': import.meta.env.VITE_API_KEY,
         'X-RapidAPI-Host': 'visual-crossing-weather.p.rapidapi.com'
       }
     }
 
     try {
       const response = await axios.request(options);
+
       console.log(response.data);
+
+      const thisData = Object.values(response.data.locations)[0]
+
+      setLocation(thisData.address)
+
+      setValues(thisData.values)
+
+      setWeather(thisData.values[0])
+
     } catch (error) {
 
       console.error(error);
@@ -48,4 +58,26 @@ export const StateProvider = ({ children }) => {
 
     }
   }
+
+  useEffect(() => {
+
+    fetchWeather()
+
+  }, [place])
+
+  useEffect(() => {
+
+      console.log(values)
+
+  }, [values])
+
+  return (
+    <StateContext.Provider value={{ weather, setPlace, thisLoaction, values,  }}>
+      {children}
+    </StateContext.Provider>
+
+  )
+
 }
+
+export const useStateContext = () => useContext(StateContext)
