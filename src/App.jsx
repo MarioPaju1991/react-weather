@@ -4,9 +4,15 @@ import './App.css'
 
 import search from './assets/icons/search.svg'
 
+import { useStateContext } from './Context'
+
 function App() {
 
   const [input, setInput] = useState('')
+
+  const { weather} = useStateContext()
+
+  console.log(weather)
 
   return (
 
