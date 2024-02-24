@@ -7,7 +7,7 @@ export const StateContextProvider = ({ children }) => {
  const [weather, setWeather] = useState({})
  const [values, setValues] = useState([])
  const [place, setPlace] = useState('Tokyo')
- const [thisLoaction, setLocation] = useState('')
+ const [thisLocation, setLocation] = useState('')
 
 
 
@@ -72,7 +72,7 @@ export const StateContextProvider = ({ children }) => {
   }, [values])
 
   return (
-    <StateContext.Provider value={{ weather, setPlace, thisLoaction, values,  }}>
+    <StateContext.Provider value={{ weather, setPlace, thisLocation, values, }}>
       {children}
     </StateContext.Provider>
 
